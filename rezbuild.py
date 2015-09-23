@@ -19,8 +19,6 @@ def build(source_path, build_path, install_path, targets):
 
     map(rmrf, (os.path.join(build_path, n) for n in os.listdir(build_path)))
 
-    maya_version = os.environ['REZ_MAYA_VERSION']
-
     # copy python module
     shutil.copytree(os.path.join(source_path, 'pathlib2.py'), build_path)
 
