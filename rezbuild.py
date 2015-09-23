@@ -1,0 +1,37 @@
+__author__ = 'jack.straw'
+import os
+import re
+import pprint
+import shutil
+from collections import OrderedDict
+
+
+bez_files = ['build.rxt', '.bez.yaml']
+
+
+def build(source_path, build_path, install_path, targets):
+    def rmrf(path):
+        if os.path.isdir(path):
+            map(rmrf, (os.path.join(path, n) for n in os.listdir(path)))
+            os.remove(path)
+        else:
+            os.unlink(path)
+
+    map(rmrf, (os.path.join(build_path, n) for n in os.listdir(build_path)))
+
+    maya_version = os.environ['REZ_MAYA_VERSION']
+
+    # copy python module
+    shutil.copytree(os.path.join(source_path, 'pathlib2.py'), build_path)
+
+    if targets and 'install' in targets:
+        if os.path.exists(install_path):
+            map(rmrf, (os.path.join(build_path, n) for n in os.listdir(build_path)))
+        else:
+            os.mkdir(install_path)
+        map(
+            lambda p: shutil.copytree(os.path.join(build_path, p), os.path.join(install_path, p))
+                        if os.path.isdir(os.path.join(build_path, p))
+                        else shutil.copy(os.path.join(build_path, p), install_path),
+            os.listdir(build_path)
+        )
