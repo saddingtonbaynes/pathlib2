@@ -15,7 +15,8 @@ def build(source_path, build_path, install_path, targets):
             map(rmrf, (os.path.join(path, n) for n in os.listdir(path)))
             os.remove(path)
         else:
-            os.unlink(path)
+            if os.path.basename(path) not in bez_files:
+                os.unlink(path)
 
     map(rmrf, (os.path.join(build_path, n) for n in os.listdir(build_path)))
 
@@ -27,6 +28,7 @@ def build(source_path, build_path, install_path, targets):
             map(rmrf, (os.path.join(build_path, n) for n in os.listdir(build_path)))
         else:
             os.mkdir(install_path)
+        print os.listdir(build_path)
         map(
             lambda p: shutil.copytree(os.path.join(build_path, p), os.path.join(install_path, p))
                         if os.path.isdir(os.path.join(build_path, p))
