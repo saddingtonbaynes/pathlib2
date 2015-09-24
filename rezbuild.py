@@ -25,7 +25,7 @@ def build(source_path, build_path, install_path, targets):
 
     if targets and 'install' in targets:
         if os.path.exists(install_path):
-            map(rmrf, (os.path.join(build_path, n) for n in os.listdir(build_path)))
+            map(rmrf, (os.path.join(install_path, n) for n in os.listdir(install_path)))
         else:
             os.mkdir(install_path)
         print os.listdir(build_path)
