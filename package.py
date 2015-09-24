@@ -8,7 +8,7 @@ authors = [
 ]
 description = ''
 variants = []
-requires = ['python']
+requires = ['python', 'six']
 build_requires = []
 
 
